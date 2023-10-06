@@ -6,7 +6,7 @@ from mailing_service.models import Mailing, Message, Client
 class MailingForm(forms.ModelForm):
     class Meta:
         model = Mailing
-        fields = ('time', 'frequency', 'clients','message')
+        fields = ('time', 'frequency', 'clients', 'message')
 
 
 class MessageForm(forms.ModelForm):

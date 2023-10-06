@@ -29,6 +29,7 @@ class Mailing(models.Model):
         CREATED = 'created', 'Создана'
         RUNNING = 'running', 'Запущена'
 
+    mailing_name = models.CharField(max_length=200, verbose_name='название рассылки', default='Без имени')
     time = models.TimeField(verbose_name='время рассылки')
     frequency = models.CharField(max_length=15, choices=Frequency.choices, verbose_name='периодичность')
     status = models.CharField(max_length=10, choices=Status.choices, verbose_name='статус рассылки')

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
 
+from mailing_service.forms import MailingForm, MessageForm, ClientForm
 from mailing_service.models import Mailing, Message, Client
 
 
@@ -15,12 +16,14 @@ def home(request):
 class MailingCreateView(CreateView):
     model = Mailing
     fields = ('time', 'frequency', 'clients', 'message')
-    # success_url = reverse_lazy()
+    form_class = MailingForm
+    success_url = reverse_lazy('mailing_service:mailing_list')
 
 
 class MailingUpdateView(UpdateView):
     model = Mailing
     fields = ('time', 'frequency', 'clients','message')
+    form_class = MailingForm
 
 
 class MailingListView(ListView):
@@ -39,11 +42,13 @@ class MailingDeleteView(DeleteView):
 class MessageCreateView(CreateView):
     model = Message
     fields = ('subject', 'body')
+    form_class = MessageForm
 
 
 class MessageUpdateView(UpdateView):
     model = Message
     fields = ('subject', 'body')
+    form_class = MessageForm
 
 
 class MessageListView(ListView):
@@ -62,11 +67,13 @@ class MessageDetailView(DetailView):
 class ClientCreateView(CreateView):
     model = Client
     fields = ('fullname', 'email', 'comment')
+    form_class = ClientForm
 
 
 class ClientUpdateView(UpdateView):
     model = Client
     fields = ('fullname', 'email', 'comment')
+    form_class = ClientForm
 
 
 class ClientListView(ListView):

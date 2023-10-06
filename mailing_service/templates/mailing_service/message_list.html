@@ -6,22 +6,20 @@
         <!-- Example row of columns -->
         <div class="row">
             <div class="col-3">
-                <a href="{% url 'mailing_service:mailing_create' %}" class="btn btn-primary">Создать рассылку</a>
+                <a href="{% url 'mailing_service:message_create' %}" class="btn btn-primary">Создать сообщение</a>
             </div>
         </div>
         <div class="row">
             {% for object in object_list %}
                 <div class="card mb-4 mr-5" style="width: 20rem;">
                     <div class="card-body">
-                        <h5 class="card-title">{{ object.mailing_name }}</h5>
-                        <p class="card-text">{{ object.time }}</p>
-                        <p class="card-text">{{ object.status }}</p>
+                        <h5 class="card-title">{{ object.subject }}</h5>
                         <br>
                     </div>
                     <div class="card-footer">
-                        <a class="btn btn-link" href="{% url 'mailing_service:mailing_update' object.pk %}">Изменить</a>
+                        <a class="btn btn-link" href="{% url 'mailing_service:message_update' object.pk %}">Изменить</a>
                         <a class="btn btn-danger"
-                           href="{% url 'mailing_service:mailing_delete' object.pk %}">Удалить</a>
+                           href="{% url 'mailing_service:message_delete' object.pk %}">Удалить</a>
                     </div>
                 </div>
             {% endfor %}
