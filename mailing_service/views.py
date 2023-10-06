@@ -7,6 +7,17 @@ from mailing_service.models import Mailing, Message, Client
 
 
 # Create your views here.
+class ContextViewMixin:
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        return context_data
+
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.user = self.request.user
+        self.object.save()
+        return super().form_valid(form)
 
 
 def home(request):
@@ -15,14 +26,12 @@ def home(request):
 
 class MailingCreateView(CreateView):
     model = Mailing
-    fields = ('time', 'frequency', 'clients', 'message')
     form_class = MailingForm
     success_url = reverse_lazy('mailing_service:mailing_list')
 
 
 class MailingUpdateView(UpdateView):
     model = Mailing
-    fields = ('time', 'frequency', 'clients','message')
     form_class = MailingForm
 
 
@@ -41,13 +50,13 @@ class MailingDeleteView(DeleteView):
 
 class MessageCreateView(CreateView):
     model = Message
-    fields = ('subject', 'body')
+    # fields = ('subject', 'body')
     form_class = MessageForm
 
 
 class MessageUpdateView(UpdateView):
     model = Message
-    fields = ('subject', 'body')
+    # fields = ('subject', 'body')
     form_class = MessageForm
 
 
@@ -66,13 +75,13 @@ class MessageDetailView(DetailView):
 
 class ClientCreateView(CreateView):
     model = Client
-    fields = ('fullname', 'email', 'comment')
+    # fields = ('fullname', 'email', 'comment')
     form_class = ClientForm
 
 
 class ClientUpdateView(UpdateView):
     model = Client
-    fields = ('fullname', 'email', 'comment')
+    # fields = ('fullname', 'email', 'comment')
     form_class = ClientForm
 
 

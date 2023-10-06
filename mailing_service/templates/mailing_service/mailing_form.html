@@ -1,6 +1,49 @@
 {% extends 'mailing_service/base.html' %}
 
 {% block content %}
+    <div class="col-12">
+        <form method="post" class="row">
+            <div class="col-3"></div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button class="btn btn-primary w-100" type="submit">
+                            {% if object %}
+                                Сохранить
+                            {% else %}
+                                Создать
+                            {% endif %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <hr>
+    <div class="container">
+        <div class="row">
+            <b><p class="text-danger text-center">Если у вас еще нет сообщений для рассылки, можете создать их или
+                изменить
+                существующие</p></b>
+            <div class="col-4"></div>
+            <div class="col-4">
+                <a href="{% url 'mailing_service:message_create' %}" class="btn btn-success">Создать
+                    сообщение</a>
+                <a href="{% url 'mailing_service:message_list' %}" class="btn btn-secondary">Список сообщений</a>
+            </div>
+        </div>
+        <div class="col-12 mt-3 text-center">
+            <div class="row">
+                <b><p class="text-danger text-center">Добавить клиентов можно здесь</p></b>
+                <div class="col-11 text-center">
+                    <a href="{% url 'mailing_service:client_create' %}" class="btn btn-success">Добавить клиента</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 {% endblock %}
