@@ -1,3 +1,12 @@
+{% url 'mailing_service:mailing_list' as mailing_list_url %}
+{% url 'mailing_service:client_list' as client_list_url %}
+{% url 'mailing_service:message_list' as message_list_url %}
+{% url 'users:profile' as profile_url %}
+{% url 'users:logout' as logout_url %}
+{% url 'users:login' as login_url %}
+{% url 'users:register' as register_url %}
+
+
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'mailing_service:home' %}">Сервис рассылок</a>
@@ -7,24 +16,33 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'mailing_service:mailing_list' %}">Рассылки</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'mailing_service:client_list' %}">Клиенты</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'mailing_service:message_list' %}">Сообщения</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Блог</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">Войти</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">Регистрация</a>
-                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link{% if request.path == mailing_list_url %} active{% endif %}" aria-current="page" href="{{ mailing_list_url }}">Рассылки</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{% if request.path == client_list_url %} active{% endif %}" href="{{ client_list_url }}">Клиенты</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{% if request.path == message_list_url %} active{% endif %}" href="{{ message_list_url }}">Сообщения</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{% if request.path == profile_url %} active{% endif %}" href="{{ profile_url }}">Профиль</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{% if request.path == logout_url %} active{% endif %}" href="{{ logout_url }}">Выйти</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link{% if request.path == blog_url %} active{% endif %}" href="#">Блог</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{% if request.path == login_url %} active{% endif %}" href="{{ login_url }}">Войти</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{% if request.path == register_url %} active{% endif %}" href="{{ register_url }}">Регистрация</a>
+                    </li>
+                {% endif %}
             </ul>
 
         </div>

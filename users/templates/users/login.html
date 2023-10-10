@@ -3,9 +3,16 @@
 {% block content %}
 
     <div class="col-12">
-        <form method="post" enctype="multipart/form-data" class="row mt-5">
+        <form method="post" class="row mt-5">
             <div class="col-4"></div>
             <div class="col-4 ml-5">
+                {% if messages %}
+                    <ul class="messages text-danger">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
@@ -18,7 +25,9 @@
                         <button class="btn btn-success" type="submit">
                             Войти
                         </button>
-{#                        <a href="{% url 'users:reset_password' %}" class="btn btn-link">Не помню пароль</a>#}
+                        <a href="{% url 'users:register' %}" class="btn btn-outline-primary">Зарегистрироваться</a>
+                        {#                        <a href="{% url 'users:reset_password' %}" class="btn btn-link">Не помню пароль</a>#}
+
                     </div>
                 </div>
             </div>
