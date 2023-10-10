@@ -4,11 +4,13 @@
 
     <div class="container">
         <!-- Example row of columns -->
-        <div class="row">
-            <div class="col-3">
-                <a href="{% url 'mailing_service:message_create' %}" class="btn btn-primary">Создать сообщение</a>
+        {% if perms.mailing_service.add_message %}
+            <div class="row">
+                <div class="col-3">
+                    <a href="{% url 'mailing_service:message_create' %}" class="btn btn-primary">Создать сообщение</a>
+                </div>
             </div>
-        </div>
+        {% endif %}
         <div class="row my-5">
             {% for object in object_list %}
                 <div class="card mb-4 mx-2" style="width: 20rem;">
@@ -17,10 +19,12 @@
                         <h5 class="card-title">Тема: {{ object.subject }}</h5>
                         <br>
                     </div>
-                    <div class="card-footer">
-                        <a class="btn btn-secondary"
-                           href="{% url 'mailing_service:message_detail' object.pk %}">Выбрать</a>
-                    </div>
+                    {% if perms.mailing_service.view_message %}
+                        <div class="card-footer">
+                            <a class="btn btn-secondary"
+                               href="{% url 'mailing_service:message_detail' object.pk %}">Выбрать</a>
+                        </div>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>

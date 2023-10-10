@@ -15,6 +15,9 @@ class UserProfileForm(FormClassMixin, UserChangeForm):
     class Meta:
         model = User
         fields = ('email', 'avatar', 'phone', 'country', 'birthday')
+        widgets = {
+            'birthday': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

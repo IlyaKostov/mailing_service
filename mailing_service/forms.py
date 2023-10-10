@@ -8,20 +8,18 @@ class FormClassMixin:
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
-            # print(field_name)
-            # print(field)
 
 
 class MailingForm(FormClassMixin, forms.ModelForm):
     class Meta:
         model = Mailing
         fields = ('mailing_name', 'time', 'frequency', 'clients', 'message')
+        help_texts = {
+            'clients': 'Удерживайте “Control“ (или “Command“ на Mac), чтобы выбрать несколько значений.',
+        }
         widgets = {
-            # 'clients': forms.CheckboxSelectMultiple,
             'time': forms.TimeInput(attrs={'type': 'time'}),
         }
-
-    # clients = forms.ModelMultipleChoiceField(queryset=Client.objects.all(), widget=forms.CheckboxSelectMultiple)
 
 
 class MessageForm(FormClassMixin, forms.ModelForm):
