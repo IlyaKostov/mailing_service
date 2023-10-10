@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mailing_service',
+        'NAME': os.getenv('DB_NAME'),
         'PASSWORD': os.getenv('PASSWORD_DB'),
         'USER': os.getenv('USER_DB')
     }
@@ -113,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
 
@@ -140,7 +140,16 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 
 AUTH_USER_MODEL = 'users.User'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/users/'
 
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD')
+EMAIL_USE_SSL = True
 
 # Format string for displaying run time timestamps in the Django admin site. The default
 # just adds seconds to the standard Django format, which is useful for displaying the timestamps

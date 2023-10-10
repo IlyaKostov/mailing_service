@@ -27,6 +27,23 @@
             text-decoration: auto;
             animation: 2s linear 0s normal none infinite progress-bar-stripes;
         }
+
+        /* Перемещаем чекбоксы на боковую панель */
+        ul .checkbox {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        /* Устанавливаем ширину боковой панели */
+        ul .checkbox ul {
+            width: 300px;
+        }
+
+        /* Устанавливаем высоту боковой панели и добавляем прокрутку */
+        ul .checkbox ul {
+            height: 200px;
+            overflow-y: scroll;
+        }
     </style>
 
 </head>
