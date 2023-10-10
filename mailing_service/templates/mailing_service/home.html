@@ -6,12 +6,12 @@
         <div class="row">
             <div class="col-3"></div>
             <div class="col-6">
-                <h1 class="text-center">Добро пожаловать<br>в наш сервис рассылок</h1>
+                <h1 class="text-center">Добро пожаловать<br>в сервис рассылок</h1>
             </div>
         </div>
         <br>
         <div class="row mt-3">
-            <div class="col- text-center">
+            <div class="col-12 text-center">
                 <h3>
                     Здесь вы можете:
                 </h3>
@@ -22,24 +22,28 @@
     <div class="container my-5">
         <div class="row">
             <div class="col-4">
-                <div class="card">
+                <div class="card w-auto">
                     <div class="card-header">Создать Рассылку!</div>
                     <div class="card-body">
-                        <p class="card-text">Вы можете создать новую рассылку<br>либо воспользоваться списком
+                        <p class="card-text">Вы можете создать новую рассылку сообщений</p>
+                        <a href="{% url 'mailing_service:mailing_create' %}" class="btn btn-primary w-100">Создать</a>
+                        <hr>
+                        <p class="card-text">Воспользоваться списком
                             существующих</p>
-                        <a href="{% url 'mailing_service:mailing_create' %}" class="btn btn-primary">Создать</a>
-                        <a href="{% url 'mailing_service:mailing_list' %}" class="btn btn-outline-secondary">Список рассылок</a>
+                        <a href="{% url 'mailing_service:mailing_list' %}" class="bot3 w-100">Список рассылок</a>
                     </div>
                 </div>
             </div>
             <div class="col-4">
-                <div class="card">
+                <div class="card w-auto">
                     <div class="card-header">Создать Сообщение!</div>
                     <div class="card-body">
-                        <p class="card-text">Вы можете создать сообщение для рассылки<br>либо воспользоваться списком
+                        <p class="card-text">Вы можете создать сообщение для рассылки</p>
+                        <a href="{% url 'mailing_service:message_create' %}" class="btn btn-primary w-100">Создать</a>
+                        <hr>
+                        <p class="card-text">Воспользоваться списком
                             существующих</p>
-                        <a href="{% url 'mailing_service:message_create' %}" class="btn btn-primary">Создать</a>
-                        <a href="{% url 'mailing_service:message_list' %}" class="btn btn-outline-secondary">Список сообщений</a>
+                        <a href="{% url 'mailing_service:message_list' %}" class="bot3 w-100">Список сообщений</a>
                     </div>
                 </div>
             </div>
@@ -47,17 +51,18 @@
                 <div class="card">
                     <div class="card-header">Создать Получателей!</div>
                     <div class="card-body">
-                        <p class="card-text">Вы можете указать получателей рассылки<br>либо воспользоваться списком
-                            существующих</p>
-                        <a href="{% url 'mailing_service:client_create' %}" class="btn btn-primary">Создать</a>
-                        <a href="{% url 'mailing_service:client_list' %}" class="btn btn-outline-secondary">Список клиентов</a>
+                        <p class="card-text">Вы можете создать получателей рассылки</p>
+                        <a href="{% url 'mailing_service:client_create' %}" class="btn btn-primary w-100">Создать</a>
+                        <hr>
+                        <p class="card-text">Воспользоваться списком существующих</p>
+                        <a href="{% url 'mailing_service:client_list' %}" class="bot3 w-100">Список клиентов</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="row mt-3">
-        <div class="col- text-center">
+        <div class="col-12 text-center">
             <h3>
                 Так вы можете воспользоваться нашим блогом, <br>в котором можете найти что-то полезное для себя
             </h3>

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from mailing_service.models import Mailing, Client, MailLogs
+from mailing_service.models import Mailing, Client, MailLogs, Message
 
 
 # Register your models here.
@@ -14,6 +14,11 @@ class MailingAdmin(admin.ModelAdmin):
 class ClientAdmin(admin.ModelAdmin):
     list_display = ('id', 'fullname', 'email')
     list_filter = ('fullname', )
+
+
+@admin.register(Message)
+class ClientAdmin(admin.ModelAdmin):
+    list_display = ('id', 'subject', 'body')
 
 
 @admin.register(MailLogs)

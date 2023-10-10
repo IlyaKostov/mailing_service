@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
 
 from mailing_service.forms import MailingForm, MessageForm, ClientForm
@@ -34,6 +34,9 @@ class MailingUpdateView(UpdateView):
     model = Mailing
     form_class = MailingForm
 
+    def get_success_url(self):
+        return reverse('mailing_service:mailing_detail', args=[self.kwargs.get('pk')])
+
 
 class MailingListView(ListView):
     model = Mailing
@@ -45,19 +48,20 @@ class MailingDetailView(DetailView):
 
 class MailingDeleteView(DeleteView):
     model = Mailing
-    # success_url = reverse_lazy()
+    success_url = reverse_lazy('mailing_service:mailing_list')
 
 
 class MessageCreateView(CreateView):
     model = Message
-    # fields = ('subject', 'body')
     form_class = MessageForm
 
 
 class MessageUpdateView(UpdateView):
     model = Message
-    # fields = ('subject', 'body')
     form_class = MessageForm
+
+    def get_success_url(self):
+        return reverse('mailing_service:message_detail', args=[self.kwargs.get('pk')])
 
 
 class MessageListView(ListView):
@@ -66,7 +70,7 @@ class MessageListView(ListView):
 
 class MessageDeleteView(DeleteView):
     model = Message
-    # success_url = reverse_lazy()
+    success_url = reverse_lazy('mailing_service:message_list')
 
 
 class MessageDetailView(DetailView):
@@ -75,14 +79,16 @@ class MessageDetailView(DetailView):
 
 class ClientCreateView(CreateView):
     model = Client
-    # fields = ('fullname', 'email', 'comment')
     form_class = ClientForm
+    success_url = reverse_lazy('mailing_service:client_list')
 
 
 class ClientUpdateView(UpdateView):
     model = Client
-    # fields = ('fullname', 'email', 'comment')
     form_class = ClientForm
+
+    def get_success_url(self):
+        return reverse('mailing_service:client_detail', args=[self.kwargs.get('pk')])
 
 
 class ClientListView(ListView):
@@ -95,5 +101,5 @@ class ClientDetailView(DetailView):
 
 class ClientDeleteView(DeleteView):
     model = Client
-    # success_url = reverse_lazy()
+    success_url = reverse_lazy('mailing_service:client_list')
 

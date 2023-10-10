@@ -6,7 +6,7 @@ NULLABLE = {'blank': True, 'null': True}
 
 class Client(models.Model):
     fullname = models.CharField(max_length=200, verbose_name='ФИО')
-    email = models.EmailField(verbose_name='контактный email')
+    email = models.EmailField(verbose_name='контактный email', unique=True)
     comment = models.TextField(verbose_name='комментарий', **NULLABLE)
 
     def __str__(self):
