@@ -23,61 +23,96 @@
             <div class="container my-5">
                 <div class="row">
                     <div class="col-4">
-                        <div class="card w-auto">
-                            <div class="card-header">Создать Рассылку!</div>
-                            <div class="card-body">
-                                {% if perms.mailing_service.add_mailing %}
+                        {% if perms.mailing_service.add_mailing %}
+                            <div class="card w-auto">
+                                <div class="card-header">Создать Рассылку!</div>
+                                <div class="card-body">
                                     <p class="card-text">Вы можете создать новую рассылку сообщений</p>
                                     <a href="{% url 'mailing_service:mailing_create' %}" class="btn btn-primary w-100">Создать</a>
-                                    <hr>
-                                {% endif %}
-                                <p class="card-text">Воспользоваться списком
-                                    существующих рассылок</p>
-                                <a href="{% url 'mailing_service:mailing_list' %}" class="bot3 w-100">Список
-                                    рассылок</a>
+                                </div>
                             </div>
-                        </div>
+                            <hr>
+                        {% endif %}
+                        {% if perms.mailing_service.view_mailing %}
+                            <div class="card w-auto">
+                                <div class="card-header">Список рассылок</div>
+                                <div class="card-body">
+                                    <p class="card-text">Воспользоваться списком
+                                        существующих рассылок</p>
+                                    <a href="{% url 'mailing_service:mailing_list' %}" class="bot3 w-100">Список
+                                        рассылок</a>
+                                </div>
+                            </div>
+                        {% endif %}
+
                     </div>
                     <div class="col-4">
-                        <div class="card w-auto">
-                            <div class="card-header">Создать Сообщение!</div>
-                            <div class="card-body">
-                                {% if perms.mailing_service.add_message %}
+
+                        {% if perms.mailing_service.add_message %}
+                            <div class="card w-auto">
+                                <div class="card-header">Создать Сообщение!</div>
+                                <div class="card-body">
                                     <p class="card-text">Вы можете создать сообщение для рассылки</p>
                                     <a href="{% url 'mailing_service:message_create' %}" class="btn btn-primary w-100">Создать</a>
-                                    <hr>
-                                {% endif %}
-                                <p class="card-text">Воспользоваться списком
-                                    существующих сообщений</p>
-                                <a href="{% url 'mailing_service:message_list' %}" class="bot3 w-100">Список
-                                    сообщений</a>
+                                </div>
                             </div>
-                        </div>
+                            <hr>
+                        {% endif %}
+                        {% if perms.mailing_service.view_message %}
+                            <div class="card w-auto">
+                                <div class="card-header">Список Сообщений!</div>
+                                <div class="card-body">
+                                    <p class="card-text">Воспользоваться списком
+                                        существующих сообщений</p>
+                                    <a href="{% url 'mailing_service:message_list' %}" class="bot3 w-100">Список
+                                        сообщений</a>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="col-4">
-                        <div class="card">
-                            <div class="card-header">Создать Получателей!</div>
-                            <div class="card-body">
-                                {% if perms.mailing_service.add_client %}
+                        {% if perms.mailing_service.add_client %}
+                            <div class="card">
+                                <div class="card-header">Создать Получателей!</div>
+                                <div class="card-body">
                                     <p class="card-text">Вы можете создать получателей рассылки</p>
                                     <a href="{% url 'mailing_service:client_create' %}" class="btn btn-primary w-100">Создать</a>
-                                    <hr>
-                                {% endif %}
-                                <p class="card-text">Воспользоваться списком существующих клиентов</p>
-                                <a href="{% url 'mailing_service:client_list' %}" class="bot3 w-100">Список клиентов</a>
+                                </div>
                             </div>
-                        </div>
+                            <hr>
+                        {% endif %}
+                        {% if perms.mailing_service.view_client %}
+                            <div class="card">
+                                <div class="card-header">Список Получателей!</div>
+
+                                <div class="card-body">
+                                    <p class="card-text">Воспользоваться списком существующих клиентов</p>
+                                    <a href="{% url 'mailing_service:client_list' %}" class="bot3 w-100">Список
+                                        клиентов</a>
+                                </div>
+                            </div>
+                        {% endif %}
+
                     </div>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col-12 text-center">
                     <h3>
-                        Так вы можете воспользоваться нашим блогом, <br>в котором можете найти что-то полезное для себя
+                        Так же вы можете воспользоваться нашим блогом, <br>в котором можете найти что-то полезное для
+                        себя
                     </h3>
                 </div>
             </div>
         {% else %}
+            <div class="row mt-3">
+                <div class="col-12 text-center">
+                    <h3>
+                        Ознакомьтесь с нашим блогом, <br>в котором можете найти что-то полезное для
+                        себя
+                    </h3>
+                </div>
+            </div>
         {% endif %}
 
 
