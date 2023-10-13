@@ -13,7 +13,7 @@ class FormClassMixin:
 class MailingForm(FormClassMixin, forms.ModelForm):
     class Meta:
         model = Mailing
-        fields = ('mailing_name', 'time', 'frequency', 'clients', 'message')
+        exclude = ('user', 'status')
         help_texts = {
             'clients': 'Удерживайте “Control“ (или “Command“ на Mac), чтобы выбрать несколько значений.',
         }
@@ -21,14 +21,17 @@ class MailingForm(FormClassMixin, forms.ModelForm):
             'time': forms.TimeInput(attrs={'type': 'time'}),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
 
 class MessageForm(FormClassMixin, forms.ModelForm):
     class Meta:
         model = Message
-        fields = '__all__'
+        exclude = ('user',)
 
 
 class ClientForm(FormClassMixin, forms.ModelForm):
     class Meta:
         model = Client
-        fields = '__all__'
+        exclude = ('user',)

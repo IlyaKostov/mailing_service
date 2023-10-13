@@ -6,8 +6,8 @@ from mailing_service.models import Mailing, Client, MailLogs, Message
 # Register your models here.
 @admin.register(Mailing)
 class MailingAdmin(admin.ModelAdmin):
-    list_display = ('id', 'time', 'frequency', 'status')
-    list_filter = ('time', 'frequency', 'status',)
+    list_display = ('id', 'mailing_name', 'start_date', 'time', 'frequency', 'status')
+    list_filter = ('time', 'start_date', 'frequency', 'status',)
 
 
 @admin.register(Client)
