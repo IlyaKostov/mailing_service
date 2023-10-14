@@ -17,7 +17,9 @@
                     <div class="card-header">Сообщение №{{ object.pk }}</div>
                     <div class="card-body">
                         <h5 class="card-title">Тема: {{ object.subject }}</h5>
-                        <br>
+                        {% if request.user.is_staff %}
+                            <p class="text-muted">Создал: {{ object.user }}</p>
+                        {% endif %}
                     </div>
                     {% if perms.mailing_service.view_message %}
                         <div class="card-footer">

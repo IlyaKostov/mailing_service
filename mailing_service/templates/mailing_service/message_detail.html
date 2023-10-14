@@ -10,12 +10,16 @@
                     сообщений</a>
             </div>
         </div>
-        <div class="card">
+        <div class="card w-75">
             <div class="card-header text-center">Сообщение №{{ object.pk }}</div>
             <div class="card-body">
                 <h5 class="card-title">Тема сообщения: <br>{{ object.subject }}</h5>
                 <hr>
                 <p class="card-text">Текст сообщения: <br> {{ object.body }}</p>
+                <hr>
+                {% if request.user.is_staff %}
+                    <p class="text-muted">Создал: {{ object.user }}</p>
+                {% endif %}
             </div>
             <div class="card-footer text-center">
                 {% if perms.mailing_service.change_message %}

@@ -10,17 +10,20 @@
                     клиентов</a>
             </div>
         </div>
-        <div class="card text-center">
-            <div class="card-header">Клиент №{{ object.pk }}</div>
+        <div class="card w-50">
+            <div class="card-header text-center">Клиент №{{ object.pk }}</div>
             <div class="card-body">
-                <h5 class="card-title">{{ object.fullname }}</h5>
+                <h5 class="card-title">Имя: {{ object.fullname }}</h5>
                 <hr>
                 <p class="card-text">Электронная почта: <br> {{ object.email }}</p>
                 <hr>
                 <p class="card-text">Комментарий: <br> {{ object.comment }}</p>
-
+                {% if request.user.is_staff %}
+                <hr>
+                    <p class="card-text text-muted">Создал: <br> {{ object.user }}</p>
+                {% endif %}
             </div>
-            <div class="card-footer">
+            <div class="card-footer text-center">
                 {% if perms.mailing_service.change_client %}
                     <a class="card-link mx-4" href="{% url 'mailing_service:client_update' object.pk %}">Изменить</a>
                 {% endif %}

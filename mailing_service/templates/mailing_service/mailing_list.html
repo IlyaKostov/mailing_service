@@ -16,11 +16,11 @@
                 <div class="card mb-4 mx-2" style="width: 20rem;">
                     <div class="card-header">Рассылка №{{ object.pk }}</div>
                     <div class="card-body">
-                        <h5 class="card-title">{{ object.mailing_name }}</h5>
-                        <p class="card-text">{{ object.time }}</p>
-                        <p class="card-text">{{ object.get_status_display }}</p>
+                        <h5 class="card-title">Название: {{ object.mailing_name }}</h5>
+                        <p class="card-text">Время: {{ object.time }}</p>
+                        <p class="card-text">Статус: {{ object.get_status_display }}</p>
                         {% if request.user.is_staff %}
-                            <span class="text-muted">{{ object.user }}</span>
+                            <span class="text-muted">Создал: {{ object.user }}</span>
                         {% endif %}
                     </div>
                     {% if perms.mailing_service.view_mailing %}

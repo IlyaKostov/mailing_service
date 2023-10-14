@@ -25,3 +25,11 @@ class User(AbstractUser):
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
+        ordering = ('id',)
+
+        permissions = [
+            (
+                'set_activity',
+                'Can change activity'
+            )
+        ]
