@@ -18,7 +18,10 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ object.mailing_name }}</h5>
                         <p class="card-text">{{ object.time }}</p>
-                        <p class="card-text">{{ object.status }}</p>
+                        <p class="card-text">{{ object.get_status_display }}</p>
+                        {% if request.user.is_staff %}
+                            <span class="text-muted">{{ object.user }}</span>
+                        {% endif %}
                     </div>
                     {% if perms.mailing_service.view_mailing %}
                         <div class="card-footer">
