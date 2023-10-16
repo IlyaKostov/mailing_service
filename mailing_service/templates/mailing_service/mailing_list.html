@@ -17,6 +17,7 @@
                     <div class="card-header">Рассылка №{{ object.pk }}</div>
                     <div class="card-body">
                         <h5 class="card-title">Название: {{ object.mailing_name }}</h5>
+                        <p class="card-text">Дата: {{ object.start_date }}</p>
                         <p class="card-text">Время: {{ object.time }}</p>
                         <p class="card-text">Статус: {{ object.get_status_display }}</p>
                         {% if request.user.is_staff %}
@@ -27,6 +28,15 @@
                         <div class="card-footer">
                             <a class="btn btn-secondary"
                                href="{% url 'mailing_service:mailing_detail' object.pk %}">Выбрать</a>
+                            {% if perms.mailing_service.change_activity %}
+                                {% if object.is_active %}
+                                    <a class="btn btn-danger"
+                                       href="{% url 'mailing_service:mailing_toggle_activity' object.pk %}">Отключить</a>
+                                {% else %}
+                                    <a class="btn btn-success"
+                                       href="{% url 'mailing_service:mailing_toggle_activity' object.pk %}">Включить</a>
+                                {% endif %}
+                            {% endif %}
                         </div>
                     {% endif %}
                 </div>

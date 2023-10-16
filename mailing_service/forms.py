@@ -13,9 +13,11 @@ class FormClassMixin:
 class MailingForm(FormClassMixin, forms.ModelForm):
     class Meta:
         model = Mailing
-        exclude = ('user', 'status')
+        exclude = ('user', 'is_active')
         help_texts = {
             'clients': 'Удерживайте “Control“ (или “Command“ на Mac), чтобы выбрать несколько значений.',
+            'status': 'Для работы рассылки, установите статус - "Создана"<br>'
+                      'Для прекращения работы рассылки, установите статус - "Завершена"'
         }
         widgets = {
             'time': forms.TimeInput(attrs={'type': 'time'}),

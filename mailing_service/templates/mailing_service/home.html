@@ -95,25 +95,38 @@
                     </div>
                 </div>
             </div>
-            <div class="row mt-3">
-                <div class="col-12 text-center">
-                    <h3>
-                        Так же вы можете воспользоваться нашим блогом, <br>в котором можете найти что-то полезное для
-                        себя
-                    </h3>
-                </div>
-            </div>
-        {% else %}
-            <div class="row mt-3">
-                <div class="col-12 text-center">
-                    <h3>
-                        Ознакомьтесь с нашим блогом, <br>в котором можете найти что-то полезное для
-                        себя
-                    </h3>
-                </div>
-            </div>
         {% endif %}
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col-12 text-center">
+                <h4>
+                    Сейчас на сайте<br>Рассылок всего: {{ all_mailings }} Активных рассылок: {{ active_mailings }}<br>
+                    Уникальных клиентов для рассылок: {{ clients }}
+                </h4>
+                <h3 class="text mt-4">
+                    Ознакомьтесь с нашим <a href="#"> блогом</a>, <br>в котором можете найти что-то полезное для
+                    себя
+                </h3>
+            </div>
+        </div>
+        <div class="row mt-4">
+            {% for object in blog_list %}
+                <div class="card mb-4 mx-2" style="width: 20rem;">
+                    <img src="{{ object.image }}" class="card-img-top" alt="image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ object.title }}</h5>
+                        <p class="card-text">{{ object.content|slice:100 }}</p>
+                        <p class="card-text text-muted">Количество просмотров: {{ object.count_views }}</p>
+                        <span class="text-muted">Опубликовано: {{ object.created_at }}</span>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-secondary"
+                           href="#">Просмотреть</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
 
-
+    </div>
 
 {% endblock %}
