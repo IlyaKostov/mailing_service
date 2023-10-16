@@ -4,12 +4,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.decorators.cache import cache_page
 from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
 
-from blog.models import Blog
 from mailing_service.forms import MailingForm, MessageForm, ClientForm
 from mailing_service.models import Mailing, Message, Client
+from mailing_service.services import get_random_blog_article
 
 
 class UserQuerysetMixin:
@@ -61,13 +60,12 @@ class LoginRequiredMessageMixin(LoginRequiredMixin):
         return super().handle_no_permission()
 
 
-@cache_page(60)
 def home(request):
     all_mailings = Mailing.objects.count()
     active_mailings = Mailing.objects.filter(is_active=True,
                                              status__in=[Mailing.Status.CREATED, Mailing.Status.RUNNING]).count()
     clients = Client.objects.all().values('email').distinct().count()
-    random_blog_article = Blog.objects.order_by('?')[:3]
+    random_blog_article = get_random_blog_article()
     context = {
         'all_mailings': all_mailings,
         'active_mailings': active_mailings,
@@ -84,6 +82,7 @@ class MailingCreateView(LoginRequiredMessageMixin, PermissionRequiredMixin, User
     success_url = reverse_lazy('mailing_service:mailing_list')
 
     def get_form(self, form_class=None):
+        """Формирование полей 'clients' и 'message' в форме, принадлежащих текущему пользователю"""
         form = super().get_form(form_class)
         form.fields['clients'].queryset = Client.objects.filter(user=self.request.user)
         form.fields['message'].queryset = Message.objects.filter(user=self.request.user)
@@ -182,6 +181,7 @@ class ClientDeleteView(LoginRequiredMessageMixin, PermissionRequiredMixin, UserO
 @login_required
 @permission_required('mailing_service.change_activity')
 def toggle_activity(request, pk):
+    """Отключение рассылок"""
     mailing = get_object_or_404(Mailing, pk=pk)
     if request.user.is_staff:
         if mailing.is_active:
