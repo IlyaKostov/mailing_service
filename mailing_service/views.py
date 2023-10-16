@@ -1,17 +1,20 @@
-import datetime
-
 from django.contrib import messages
+from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
+from django.views.decorators.cache import cache_page
 from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
 
+from blog.models import Blog
 from mailing_service.forms import MailingForm, MessageForm, ClientForm
 from mailing_service.models import Mailing, Message, Client
 
 
 class UserQuerysetMixin:
+    """Ограничивает список просматриваемых пользователем объектов, принадлежащими только текущему пользователю,
+     и сохраняет доступ для персонала"""
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -21,6 +24,7 @@ class UserQuerysetMixin:
 
 
 class StaffUserObjectMixin:
+    """Ограничивает доступ пользователя к чужим объектам, и сохраняет доступ для персонала"""
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
@@ -30,6 +34,7 @@ class StaffUserObjectMixin:
 
 
 class UserObjectMixin:
+    """Ограничивает доступ пользователя к чужим объектам"""
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
@@ -39,6 +44,7 @@ class UserObjectMixin:
 
 
 class UserFormMixin:
+    """Присваивает объект пользователю который его создал"""
 
     def form_valid(self, form):
         self.object = form.save()
@@ -47,31 +53,31 @@ class UserFormMixin:
         return super().form_valid(form)
 
 
-class ObjectStatusMixin:
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        if self.object.start_date == datetime.date.today():
-            self.object.status = Mailing.Status.RUNNING
-        else:
-            self.object.status = Mailing.Status.CREATED
-        self.object.save()
-        return super().form_valid(form)
-
-
 class LoginRequiredMessageMixin(LoginRequiredMixin):
+    """Ограничение доступа только для авторизованных пользователей, вывод соответствующего информационного сообщения"""
 
     def handle_no_permission(self):
         messages.error(self.request, 'Для доступа к этой странице необходимо авторизоваться')
         return super().handle_no_permission()
 
 
+@cache_page(60)
 def home(request):
-    return render(request, 'mailing_service/home.html')
+    all_mailings = Mailing.objects.count()
+    active_mailings = Mailing.objects.filter(is_active=True,
+                                             status__in=[Mailing.Status.CREATED, Mailing.Status.RUNNING]).count()
+    clients = Client.objects.all().values('email').distinct().count()
+    random_blog_article = Blog.objects.order_by('?')[:3]
+    context = {
+        'all_mailings': all_mailings,
+        'active_mailings': active_mailings,
+        'clients': clients,
+        'blog_list': random_blog_article,
+    }
+    return render(request, 'mailing_service/home.html', context=context)
 
 
-class MailingCreateView(LoginRequiredMessageMixin, PermissionRequiredMixin, UserFormMixin,
-                        ObjectStatusMixin, CreateView):
+class MailingCreateView(LoginRequiredMessageMixin, PermissionRequiredMixin, UserFormMixin, CreateView):
     model = Mailing
     form_class = MailingForm
     permission_required = 'mailing_service.add_mailing'
@@ -84,8 +90,7 @@ class MailingCreateView(LoginRequiredMessageMixin, PermissionRequiredMixin, User
         return form
 
 
-class MailingUpdateView(LoginRequiredMessageMixin, PermissionRequiredMixin,
-                        UserObjectMixin, ObjectStatusMixin, UpdateView):
+class MailingUpdateView(LoginRequiredMessageMixin, PermissionRequiredMixin, UserObjectMixin, UpdateView):
     model = Mailing
     form_class = MailingForm
     permission_required = 'mailing_service.change_mailing'
@@ -149,7 +154,7 @@ class ClientCreateView(LoginRequiredMessageMixin, PermissionRequiredMixin, UserF
     success_url = reverse_lazy('mailing_service:client_list')
 
 
-class ClientUpdateView(LoginRequiredMessageMixin, PermissionRequiredMixin,  UserObjectMixin, UpdateView):
+class ClientUpdateView(LoginRequiredMessageMixin, PermissionRequiredMixin, UserObjectMixin, UpdateView):
     model = Client
     form_class = ClientForm
     permission_required = 'mailing_service.change_client'
@@ -173,3 +178,18 @@ class ClientDeleteView(LoginRequiredMessageMixin, PermissionRequiredMixin, UserO
     permission_required = 'mailing_service.delete_client'
     success_url = reverse_lazy('mailing_service:client_list')
 
+
+@login_required
+@permission_required('mailing_service.change_activity')
+def toggle_activity(request, pk):
+    mailing = get_object_or_404(Mailing, pk=pk)
+    if request.user.is_staff:
+        if mailing.is_active:
+            mailing.is_active = False
+            mailing.status = mailing.Status.COMPLETED
+            mailing.save()
+        else:
+            mailing.is_active = True
+            mailing.status = mailing.Status.CREATED
+            mailing.save()
+        return redirect('mailing_service:mailing_list')

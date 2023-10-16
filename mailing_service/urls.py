@@ -22,4 +22,5 @@ urlpatterns = [
     path('message/create/', MessageCreateView.as_view(), name='message_create'),
     path('message/<int:pk>/update/', MessageUpdateView.as_view(), name='message_update'),
     path('message/<int:pk>/delete/', MessageDeleteView.as_view(), name='message_delete'),
+    path('mailing/<int:pk>/toggle_activity', toggle_activity, name='mailing_toggle_activity'),
 ]

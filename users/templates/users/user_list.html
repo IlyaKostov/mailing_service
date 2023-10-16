@@ -33,8 +33,8 @@
                         <td>{{ object.country }}</td>
                         <td>{{ object.birthday }}</td>
                         <td>{% if object.is_active %}Активен{% else %}Не активен{% endif %}</td>
-                        {% if perms.set_activity %}
-                            <td>
+                        <td>
+                            {% if perms.users.set_activity %}
                                 {% if not object.is_superuser %}
                                     {% if object.is_active %}
                                         <a href="{% url 'users:toggle_activity' object.pk %}"
@@ -44,8 +44,8 @@
                                            class="btn btn-outline-success">Разблокировать</a>
                                     {% endif %}
                                 {% endif %}
-                            </td>
-                        {% endif %}
+                            {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>
