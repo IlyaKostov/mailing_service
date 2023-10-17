@@ -199,6 +199,7 @@ class MailLogsListView(LoginRequiredMessageMixin, ListView):
     model = MailLogs
 
     def get_queryset(self):
+        """Получает список логов рассылок принадлежащих только текущему пользователю, и всех логов для персонала"""
         queryset = super().get_queryset()
         if self.request.user.is_staff:
             return queryset
@@ -207,6 +208,7 @@ class MailLogsListView(LoginRequiredMessageMixin, ListView):
 
 @login_required
 def get_mailing_logs(request, pk):
+    """Получение логов принадлежащих конкретной рассылке"""
     mailing_logs = MailLogs.objects.filter(mailing_id=pk)
     mailing = mailing_logs.first().mailing
     context = {

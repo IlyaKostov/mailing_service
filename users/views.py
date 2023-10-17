@@ -97,7 +97,7 @@ class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 @permission_required('users.set_activity')
 @login_required
 def toggle_activity(request, user_id):
-    """Блокировка пользователя"""
+    """Блокировка/Разблокировка пользователя"""
     user = get_object_or_404(User, pk=user_id)
     if request.user.is_staff:
         if user.is_active and not user.is_superuser:

@@ -11,6 +11,7 @@ from mailing_service.models import MailLogs, Mailing
 
 
 def get_random_blog_article():
+    """Кеширование объектов блога для главной страницы"""
     if settings.CACHE_ENABLED:
         key = 'blog_article'
         blog_article = cache.get(key)
@@ -50,6 +51,7 @@ def new_password_mail(email, password):
 
 
 def my_job():
+    """Скрипт запуска активных рассылок на текущий день, с последующей записью в логи"""
     today = datetime.datetime.now()
     time_now = today.strftime('%H:%M')
     date_today = today.date()
