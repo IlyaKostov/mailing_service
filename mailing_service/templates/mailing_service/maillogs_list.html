@@ -1,0 +1,36 @@
+{% extends 'mailing_service/base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <!-- Example row of columns -->
+        <div class="row my-5">
+
+            <table class="table table-striped table-bordered">
+                <caption style="caption-side: top">Отчет о проведенных рассылках</caption>
+                <thead>
+                <tr>
+                    <th scope="col">№</th>
+                    <th scope="col">Название рассылки(id)</th>
+                    <th scope="col">Дата и время последней попытки</th>
+                    <th scope="col">Статус попытки</th>
+                </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                {% for object in object_list %}
+                    <tr>
+                        <th scope="row">{{ object.pk }}</th>
+                        <td>
+                            <a href="{% url 'mailing_service:mailing_logs' object.mailing_id %}">{{ object.mailing.mailing_name }}({{ object.mailing_id }})</a>
+                        </td>
+                        <td>{{ object.timestamp }}</td>
+                        <td>{{ object.get_status_display }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+{% endblock %}

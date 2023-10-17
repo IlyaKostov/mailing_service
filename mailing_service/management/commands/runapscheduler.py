@@ -1,4 +1,3 @@
-
 from django.conf import settings
 
 from apscheduler.schedulers.blocking import BlockingScheduler
@@ -8,9 +7,7 @@ from django_apscheduler.jobstores import DjangoJobStore
 from django_apscheduler.models import DjangoJobExecution
 from django_apscheduler import util
 
-
-def my_job():
-    print("Hello World!")
+from mailing_service.services import my_job
 
 
 # The `close_old_connections` decorator ensures that database connections, that have become
@@ -38,7 +35,7 @@ class Command(BaseCommand):
 
         scheduler.add_job(
             my_job,
-            trigger=CronTrigger(second="*/10"),  # Every 10 seconds
+            trigger=CronTrigger(second="*/5"),  # Every 10 seconds
             id="my_job",  # The `id` assigned to each job MUST be unique
             max_instances=1,
             replace_existing=True,

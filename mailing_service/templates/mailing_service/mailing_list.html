@@ -4,13 +4,18 @@
 
     <div class="container">
         <!-- Example row of columns -->
-        {% if perms.mailing_service.add_mailing %}
-            <div class="row">
+
+        <div class="row">
+            {% if perms.mailing_service.add_mailing %}
                 <div class="col-3">
                     <a href="{% url 'mailing_service:mailing_create' %}" class="btn btn-primary">Создать рассылку</a>
                 </div>
+            {% endif %}
+            <div class="col-3">
+                <a href="{% url 'mailing_service:logs' %}" class="btn btn-primary">Отчет</a>
             </div>
-        {% endif %}
+        </div>
+
         <div class="row my-5">
             {% for object in object_list %}
                 <div class="card mb-4 mx-2" style="width: 20rem;">

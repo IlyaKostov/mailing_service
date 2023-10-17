@@ -45,9 +45,7 @@ class Mailing(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, verbose_name='пользователь', **NULLABLE)
 
     def __str__(self):
-        frequency = self.get_frequency_display()
-        status = self.get_status_display()
-        return f'{self.mailing_name} ({frequency}, {status})'
+        return f'{self.mailing_name}({self.pk}): {self.get_frequency_display()}, {self.get_status_display()}'
 
     class Meta:
         verbose_name = 'рассылка'
@@ -88,7 +86,7 @@ class MailLogs(models.Model):
     server_response = models.TextField(verbose_name='ответ почтового сервера', **NULLABLE)
 
     def __str__(self):
-        return f'{self.mailing.clients.email} - {self.timestamp} ({self.status})'
+        return f'{self.mailing} - {self.timestamp} ({self.get_status_display()})'
 
     class Meta:
         verbose_name = 'лог'

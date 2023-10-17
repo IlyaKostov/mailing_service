@@ -7,7 +7,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
 
 from mailing_service.forms import MailingForm, MessageForm, ClientForm
-from mailing_service.models import Mailing, Message, Client
+from mailing_service.models import Mailing, Message, Client, MailLogs
 from mailing_service.services import get_random_blog_article
 
 
@@ -193,3 +193,24 @@ def toggle_activity(request, pk):
             mailing.status = mailing.Status.CREATED
             mailing.save()
         return redirect('mailing_service:mailing_list')
+
+
+class MailLogsListView(LoginRequiredMessageMixin, ListView):
+    model = MailLogs
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.is_staff:
+            return queryset
+        return queryset.filter(mailing__user=self.request.user)
+
+
+@login_required
+def get_mailing_logs(request, pk):
+    mailing_logs = MailLogs.objects.filter(mailing_id=pk)
+    mailing = mailing_logs.first().mailing
+    context = {
+        'object_list': mailing_logs,
+        'mailing_name': mailing.mailing_name
+    }
+    return render(request, 'mailing_service/mailing_logs.html', context=context)
