@@ -17,7 +17,7 @@ class ClientAdmin(admin.ModelAdmin):
 
 
 @admin.register(Message)
-class ClientAdmin(admin.ModelAdmin):
+class MessageAdmin(admin.ModelAdmin):
     list_display = ('id', 'subject', 'body')
 
 
