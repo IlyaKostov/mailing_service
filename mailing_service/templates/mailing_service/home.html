@@ -1,0 +1,132 @@
+{% extends 'mailing_service/base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="text-center">Добро пожаловать в сервис рассылок<br><b>Sky Service</b></h1>
+            </div>
+        </div>
+        <br>
+        {% if user.is_authenticated %}
+            <div class="row mt-3">
+                <div class="col-12 text-center">
+                    <h3>
+                        Здесь вы можете:
+                    </h3>
+                </div>
+            </div>
+            </div>
+
+            <div class="container my-5">
+                <div class="row">
+                    <div class="col-4">
+                        {% if perms.mailing_service.add_mailing %}
+                            <div class="card w-auto">
+                                <div class="card-header">Создать Рассылку!</div>
+                                <div class="card-body">
+                                    <p class="card-text">Вы можете создать новую рассылку сообщений</p>
+                                    <a href="{% url 'mailing_service:mailing_create' %}" class="btn btn-primary w-100">Создать</a>
+                                </div>
+                            </div>
+                            <hr>
+                        {% endif %}
+                        {% if perms.mailing_service.view_mailing %}
+                            <div class="card w-auto">
+                                <div class="card-header">Список рассылок</div>
+                                <div class="card-body">
+                                    <p class="card-text">Воспользоваться списком
+                                        существующих рассылок</p>
+                                    <a href="{% url 'mailing_service:mailing_list' %}" class="bot3 w-100">Список
+                                        рассылок</a>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                    </div>
+                    <div class="col-4">
+
+                        {% if perms.mailing_service.add_message %}
+                            <div class="card w-auto">
+                                <div class="card-header">Создать Сообщение!</div>
+                                <div class="card-body">
+                                    <p class="card-text">Вы можете создать сообщение для рассылки</p>
+                                    <a href="{% url 'mailing_service:message_create' %}" class="btn btn-primary w-100">Создать</a>
+                                </div>
+                            </div>
+                            <hr>
+                        {% endif %}
+                        {% if perms.mailing_service.view_message %}
+                            <div class="card w-auto">
+                                <div class="card-header">Список Сообщений!</div>
+                                <div class="card-body">
+                                    <p class="card-text">Воспользоваться списком
+                                        существующих сообщений</p>
+                                    <a href="{% url 'mailing_service:message_list' %}" class="bot3 w-100">Список
+                                        сообщений</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-4">
+                        {% if perms.mailing_service.add_client %}
+                            <div class="card">
+                                <div class="card-header">Создать Получателей!</div>
+                                <div class="card-body">
+                                    <p class="card-text">Вы можете создать получателей рассылки</p>
+                                    <a href="{% url 'mailing_service:client_create' %}" class="btn btn-primary w-100">Создать</a>
+                                </div>
+                            </div>
+                            <hr>
+                        {% endif %}
+                        {% if perms.mailing_service.view_client %}
+                            <div class="card">
+                                <div class="card-header">Список Получателей!</div>
+
+                                <div class="card-body">
+                                    <p class="card-text">Воспользоваться списком существующих клиентов</p>
+                                    <a href="{% url 'mailing_service:client_list' %}" class="bot3 w-100">Список
+                                        клиентов</a>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col-12 text-center">
+                <h4>
+                    Сейчас на сайте<br>Рассылок всего: {{ all_mailings }} Активных рассылок: {{ active_mailings }}<br>
+                    Уникальных клиентов для рассылок: {{ clients }}
+                </h4>
+                <h3 class="text mt-4">
+                    Ознакомьтесь с нашим <a href="#"> блогом</a>, <br>в котором можете найти что-то полезное для
+                    себя
+                </h3>
+            </div>
+        </div>
+        <div class="row mt-4">
+            {% for object in blog_list %}
+                <div class="card mb-4 mx-2" style="width: 20rem;">
+                    <img src="{{ object.image }}" class="card-img-top" alt="image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ object.title }}</h5>
+                        <p class="card-text">{{ object.content|slice:100 }}</p>
+                        <p class="card-text text-muted">Количество просмотров: {{ object.count_views }}</p>
+                        <span class="text-muted">Опубликовано: {{ object.created_at }}</span>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-secondary"
+                           href="#">Просмотреть</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+{% endblock %}
